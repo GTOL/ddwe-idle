@@ -1,20 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>Ddwe Idle</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <script src="js/ddwe.js"></script>
+  <script type="text/javascript">
+    var gold = 1;
+    $(document).ready(function(){
+      $("#buyHerald").click(function(){
+        if (gold >= heraldDdwe.price) {
+          gold -= heraldDdwe.price;
+          heraldDdwe.buy();
+        }
+      });
+    });
+    function update() {
+      $("#gold").text(gold.toFixed(2));
+      $("#herald").text(heraldDdwe.amount);
+      $("#heraldPrice").text(heraldDdwe.price.toFixed(2));
+      $("#heraldProduction").text((heraldDdwe.amount * heraldDdwe.production).toFixed(2));
+    }
+    function increaseGold() {
+      gold += heraldDdwe.amount * heraldDdwe.production;
+    }
+    var goldTask = setInterval(increaseGold, 1000);
+    var updateTask = setInterval(update, 1);
+  </script>
 </head>
 <body>
   
 <div class="container">
-  <h1>My First Bootstrap Page</h1>
-  <p>This part is inside a .container class.</p> 
-  <p>The .container class provides a responsive fixed width container.</p>           
+  <h1>Ddwe Idle</h1>
+  <p>You have <span id="gold"></span> golds.</p> 
+  <p>You have <span id="herald"></span> herald ddwes.</p>
+  <p><button id="buyHerald">Buy herald ddwe</button> Cost: <span id="heraldPrice"></span>. Production: <span id="heraldProduction"></span>/sec.</p>     
 </div>
 
 </body>
