@@ -14,5 +14,8 @@ class ddwe {
 }
 
 var heraldDdwe = new ddwe(1, 1.2, 0.1);
+var guardianDdwe = new ddwe(10, 1.4, 20);
+var crusaderDdwe = new ddwe(100, 1.6, 400);
+
 
 console.log(heraldDdwe);

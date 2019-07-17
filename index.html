@@ -9,25 +9,49 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <script src="js/ddwe.js"></script>
   <script type="text/javascript">
-    var gold = 1;
-    $(document).ready(function(){
-      $("#buyHerald").click(function(){
-        if (gold >= heraldDdwe.price) {
-          gold -= heraldDdwe.price;
-          heraldDdwe.buy();
-        }
-      });
-    });
+    var gold = 100;
+
     function update() {
       $("#gold").text(gold.toFixed(2));
       $("#herald").text(heraldDdwe.amount);
       $("#heraldPrice").text(heraldDdwe.price.toFixed(2));
       $("#heraldProduction").text((heraldDdwe.amount * heraldDdwe.production).toFixed(2));
+      $("#guardian").text(guardianDdwe.amount);
+      $("#guardianPrice").text(guardianDdwe.price.toFixed(2));
+      $("#guardianProduction").text((guardianDdwe.amount * guardianDdwe.production).toFixed(2));
+      $("#crusader").text(crusaderDdwe.amount);
+      $("#crusaderPrice").text(crusaderDdwe.price.toFixed(2));
+      $("#crusaderProduction").text((crusaderDdwe.amount * crusaderDdwe.production).toFixed(2));
     }
-    function increaseGold() {
-      gold += heraldDdwe.amount * heraldDdwe.production;
+    function increaseGold(interval) {
+      gold += ( heraldDdwe.amount * heraldDdwe.production
+              + guardianDdwe.amount * guardianDdwe.production
+              + crusaderDdwe.amount * crusaderDdwe.production ) 
+              * interval / 1000;
     }
-    var goldTask = setInterval(increaseGold, 1000);
+
+    function buyHerald(amount) {
+      if (gold >= heraldDdwe.price) {
+          gold -= heraldDdwe.price;
+          heraldDdwe.buy();
+      }
+    }
+
+    function buyGuardian(amount) {
+      if (gold >= guardianDdwe.price) {
+          gold -= guardianDdwe.price;
+          guardianDdwe.buy();
+      }
+    }
+
+    function buyCrusader(amount) {
+      if (gold >= crusaderDdwe.price) {
+          gold -= crusaderDdwe.price;
+          crusaderDdwe.buy();
+      }
+    }
+
+    var goldTask = setInterval(increaseGold.bind(null, 50), 50);
     var updateTask = setInterval(update, 1);
   </script>
 </head>
@@ -37,7 +61,9 @@
   <h1>Ddwe Idle</h1>
   <p>You have <span id="gold"></span> golds.</p> 
   <p>You have <span id="herald"></span> herald ddwes.</p>
-  <p><button id="buyHerald">Buy herald ddwe</button> Cost: <span id="heraldPrice"></span>. Production: <span id="heraldProduction"></span>/sec.</p>     
+  <p><button id="buyHerald" onclick="buyHerald(1);">Buy herald ddwe</button> Cost: <span id="heraldPrice"></span>. Production: <span id="heraldProduction"></span>/sec.</p>
+  <p><button id="buyGuardian" onclick="buyGuardian(1);">Buy guardian ddwe</button> Cost: <span id="guardianPrice"></span>. Production: <span id="guardianProduction"></span>/sec.</p>
+  <p><button id="buyCrusader" onclick="buyCrusader(1);">Buy crusader ddwe</button> Cost: <span id="crusaderPrice"></span>. Production: <span id="crusaderProduction"></span>/sec.</p>
 </div>
 
 </body>
