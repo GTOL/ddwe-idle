@@ -1,2 +1,2 @@
 # ddwe-idle
-ddwe idle
+js practice project
